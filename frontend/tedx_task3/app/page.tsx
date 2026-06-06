@@ -8,9 +8,15 @@ import {useEffect,useState} from "react";
 
 export default function Home() {
   const [userId,setUserId] = useState<string|null>(null);
-   useEffect(()=>{
-   setUserId(getUserId());
- },[]);
+  useEffect(()=>{
+  const id = getUserId();
+  setUserId(id);
+
+  if(id){
+    localStorage.setItem("userId", id);
+  }
+
+},[]);
 
    const [cartChg,setCartChg]=useState(true);
  if(!userId){

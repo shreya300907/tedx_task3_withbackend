@@ -2,6 +2,11 @@ import { useCart } from "@/context/cartContext";
 import { CoordinatesData } from "@/lib/validator/coordinateSchema";
 import { RouteData_1 } from "@/lib/validator/route1Schema";
 import { RouteData_2 } from "@/lib/validator/route2Schema";
+import { fetchCart } from "@/services/cartServices";
+import { fetchProducts } from "@/services/productServices";
+import { Cart } from "@/types/cart";
+import { Product } from "@/types/product";
+import { useEffect, useState } from "react";
 
 interface ManifestProps {
     coordData: CoordinatesData | null;
@@ -9,16 +14,36 @@ interface ManifestProps {
     onSuccess: () => void;
 }
 export default function Manifest({ coordData, routeData, onSuccess }: ManifestProps) {
-    const { cart, discount } = useCart();
+    //const { cart, discount } = useCart();
+    const { discount } = useCart();
     const isCampus = routeData && "hostel" in routeData;
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         onSuccess();
     };
-    let totalcost = 0;
-    cart.forEach((item) => {
-        totalcost += item.price * item.quantity;
-    });
+    const [userId,setUserId] = useState<string|null>(null);
+
+    useEffect(()=>{
+        const id = localStorage.getItem("userId");
+        setUserId(id);
+    },[]);
+    const [cart, setCart] = useState<Cart | null>(null);
+        useEffect(() => {
+            if (!userId) return;
+            (async () => {
+              const c = await fetchCart(userId);
+              setCart(c);
+            })();
+          }, [userId]);
+    let totalcost=cart?.total;
+    const [allProducts, setAllProducts]=useState<Product[]>([])
+            useEffect(()=>{
+                async function fetchData(){
+                    const result=await fetchProducts();
+                    setAllProducts(result);
+                }
+                fetchData();
+            },[])
     return (
         <form onSubmit={handleSubmit} id="manifest-form"
             className="lg:px-12 xl:px-24 pt-12 pb-32 bg-[white] flex flex-col w-full">
@@ -61,17 +86,22 @@ export default function Manifest({ coordData, routeData, onSuccess }: ManifestPr
                             <div className="text-center">Quantity</div>
                             <div className="text-center">Subtotal</div>
                         </div>
-                        {cart.map(
-                            (item) => {
+                        {(cart?.items??[]).map(
+                            (product) => {
+                                let item=allProducts.find((item)=>product.productId===item._id)
+                                if(!item){
+                                    return null;
+                                }
                                 return (
-                                    <div key={item._id} className="grid grid-cols-[3fr_1fr_1fr_1fr] border-b items-center">
-                                        <div className="flex flex-row gap-2 items-center">
+
+                                    <div key={item._id} className="grid grid-cols-[3fr_1fr_1fr_1fr] border-b text-foreground text-[12px] pb-2">
+                                        <div className="flex flex-row gap-2">
                                             <img src={item.images[0]} alt={item.name} className="h-10" />
                                             {item.name}
                                         </div>
-                                        <div className="text-center">${item.price}</div>
-                                        <div className="text-center">{item.quantity}</div>
-                                        <div className="text-center">${item.price * item.quantity}</div>
+                                        <div>{item.currency}{item.price}</div>
+                                        <div>{product.quantity}</div>
+                                        <div>${item.price * product.quantity}</div>
                                     </div>
                                 );
                             }
@@ -94,7 +124,7 @@ export default function Manifest({ coordData, routeData, onSuccess }: ManifestPr
                     <div className="flex flex-row justify-between items-center border-t ">
                         <div className="text-[12px] font-mono font-bold tracking-[1px] text-foreground uppercase "> Total</div>
                         <div className=" text-primary-foreground text-sm ">
-                            <p>${totalcost - discount}</p>
+                            <p>${Math.max((totalcost??0)-discount,0)}</p>
                         </div>
                     </div>
                 </div>

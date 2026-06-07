@@ -22,7 +22,7 @@ export default function CoordinatesForm({ onSuccess, defaultValues }: Coordinate
     });
     return (
         <form onSubmit={handleSubmit(onSuccess)} id="coordinates-form"
-            className="lg:px-12 xl:px-24 pt-12 pb-32 bg-[white] flex flex-col w-full">
+            className="lg:px-12 xl:px-24 md:px-12 sm:px-6 px-4 pt-9 lg:pt-12 pb-12 lg:pb-20 bg-[white] flex flex-col w-full">
             <span className="font-medium text-foreground text-[24px] mb-2">Transmission Details</span>
             <span className="text-[14px] text-primary-foreground">Please identify yourself for the expedition log.</span>
             <div className="flex flex-col pt-8 gap-6">

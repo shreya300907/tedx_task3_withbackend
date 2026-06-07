@@ -46,7 +46,7 @@ export default function Manifest({ coordData, routeData, onSuccess }: ManifestPr
             },[])
     return (
         <form onSubmit={handleSubmit} id="manifest-form"
-            className="lg:px-12 xl:px-24 pt-12 pb-32 bg-[white] flex flex-col w-full">
+            className="lg:px-12 xl:px-24 md:px-12 sm:px-6 px-4 pt-9 lg:pt-12 pb-12 lg:pb-20 bg-[white] flex flex-col w-full">
             <span className="font-medium text-foreground text-[24px] mb-2">Order Manifest</span>
             <span className="text-[14px] text-primary-foreground">Review expedition details.</span>
             <div className="flex flex-col pt-8 gap-6">

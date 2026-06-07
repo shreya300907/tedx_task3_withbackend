@@ -16,10 +16,10 @@ export default function Stepper({
     ];
 
     return (
-        <div className="relative flex flex-col gap-14">
-            <div className="absolute left-[13px] top-0 bottom-0 w-px bg-[#E7E5E4]" />
+        <div className="relative flex lg:flex-col flex-row sm:gap-14 gap-6">
+            <div className="absolute left-3.25 top-0 bottom-0 w-px bg-[#E7E5E4]" />
             <motion.div
-                className="absolute left-[13px] top-0 w-px bg-[#171717]"
+                className="absolute left-3.25 top-0 w-px bg-[#171717] sm:block hidden"
                 animate={{
                     height:
                         currentStep === 1
@@ -43,7 +43,7 @@ export default function Stepper({
                 return (
                     <div
                         key={label}
-                        className="relative flex items-center gap-5 font-medium text-[14px]"
+                        className="relative flex items-center sm:gap-5 gap-2.5 font-medium sm:text-[14px] text-[12px]"
                     >
                         <motion.div
                             animate={{
@@ -57,15 +57,18 @@ export default function Stepper({
                             className={`
                                 z-10
                                 flex
-                                h-7
-                                w-7
+                                sm:h-7
+                                sm:w-7
+                                h-3.5
+                                w-3.5
                                 items-center
                                 justify-center
                                 rounded-full
                                 border
                                 bg-white
                                 font-medium 
-                                text-[14px]
+                                sm:text-[14px] 
+                                text-[12px]
                                 
                                 ${completed || active
                                     ? "border-[#171717]"
@@ -81,7 +84,7 @@ export default function Stepper({
                                         animate={{ scale: 1 }}
                                         exit={{ scale: 0 }}
                                         transition={{ duration: 0.2 }}
-                                        className="text-xs font-medium"
+                                        className="sm:text-[14px] text-[10px] font-medium"
                                     >
                                         ✓
                                     </motion.span>
@@ -112,7 +115,7 @@ export default function Stepper({
                             transition={{
                                 duration: 0.3,
                             }}
-                            className="text-[14px] tracking-[-0.45px] font-medium"
+                            className="sm:text-[14px] text-[12px] tracking-[-0.45px] font-medium"
                         >
                             {label}
                         </motion.span>

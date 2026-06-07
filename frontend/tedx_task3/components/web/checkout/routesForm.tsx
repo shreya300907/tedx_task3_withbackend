@@ -59,7 +59,7 @@ export default function RouteForm({ onSuccess, defaultValues }: RouteFormProps) 
         : handleSubmit2((data) => onSuccess(data));
 
     return (
-        <form id="routes-form" onSubmit={onSubmit} className="lg:px-12 xl:px-24 pt-12 pb-32 bg-[white] flex flex-col w-full">
+        <form id="routes-form" onSubmit={onSubmit} className="lg:px-12 xl:px-24 md:px-12 sm:px-6 px-4 pt-9 lg:pt-12 pb-12 lg:pb-20 bg-[white] flex flex-col w-full">
             <span className="font-medium text-foreground text-[24px] mb-2">Collection Route</span>
             <span className="text-[14px] text-primary-foreground">Designate the drop point for your artifacts and passes.</span>
             <div className="relative flex w-full h-14 bg-[#F5F5F4] border p-1 mt-8">
@@ -69,7 +69,7 @@ export default function RouteForm({ onSuccess, defaultValues }: RouteFormProps) 
                     onClick={() => setSelected("campus")}
                     className={`
                         relative z-10 flex-1 flex items-center justify-center gap-3
-                        font-mono text-[12px] tracking-[1.5px]
+                        font-mono sm:text-[12px] text-[10px] tracking-[1.5px]
                         transition-colors duration-300
                         ${selected === "campus"
                             ? "text-[#171717]"
@@ -86,7 +86,7 @@ export default function RouteForm({ onSuccess, defaultValues }: RouteFormProps) 
                     onClick={() => setSelected("out")}
                     className={`
                         relative z-10 flex-1 flex items-center justify-center gap-3
-                        font-mono text-[12px] tracking-[1.5px]
+                        font-mono sm:text-[12px] text-[10px] tracking-[1.5px]
                         transition-colors duration-300
                         ${selected === "out"
                             ? "text-[#171717]"
@@ -124,7 +124,7 @@ export default function RouteForm({ onSuccess, defaultValues }: RouteFormProps) 
                                         </button>
                                     </DropdownMenuTrigger>
                                     <DropdownMenuContent
-                                        className="w-[var(--radix-dropdown-menu-trigger-width)] rounded-none"
+                                        className="w-(--radix-dropdown-menu-trigger-width) rounded-none"
                                         align="start"
                                     >
                                         {hostels.map((item) => (
@@ -149,7 +149,7 @@ export default function RouteForm({ onSuccess, defaultValues }: RouteFormProps) 
 
                         <div className="flex flex-col border-b ">
                             <div className="flex flex-row gap-2">
-                                <img src="coord2.svg" alt="coord" className="h-[12px]" />
+                                <img src="coord2.svg" alt="coord" className="h-3" />
                                 <span className="text-[10px] font-mono tracking-[1px] text-primary-foreground uppercase"> Room / Coordinate</span>
                             </div>
                             <div className="py-3 text-primary-foreground text-sm ">
@@ -167,7 +167,7 @@ export default function RouteForm({ onSuccess, defaultValues }: RouteFormProps) 
 
                         <div className="flex flex-col border-b ">
                             <div className="flex flex-row gap-2">
-                                <img src="coord2.svg" alt="coord" className="h-[12px]" />
+                                <img src="coord2.svg" alt="coord" className="h-3" />
                                 <span className="text-[10px] font-mono tracking-[1px] text-primary-foreground uppercase"> Collection Notes (Optional)</span>
                             </div>
                             <div className="py-3 text-primary-foreground text-sm ">
@@ -187,7 +187,7 @@ export default function RouteForm({ onSuccess, defaultValues }: RouteFormProps) 
                     <>
                         <div className="flex flex-col border-b ">
                             <div className="flex flex-row gap-2">
-                                <img src="coord2.svg" alt="coord" className="h-[12px]" />
+                                <img src="coord2.svg" alt="coord" className="h-3" />
                                 <span className="text-[10px] font-mono tracking-[1px] text-primary-foreground uppercase">Address Line</span>
                             </div>
                             <div className="py-3 text-primary-foreground text-sm ">
@@ -205,7 +205,7 @@ export default function RouteForm({ onSuccess, defaultValues }: RouteFormProps) 
 
                         <div className="flex flex-col border-b ">
                             <div className="flex flex-row gap-2">
-                                <img src="coord2.svg" alt="coord" className="h-[12px]" />
+                                <img src="coord2.svg" alt="coord" className="h-3" />
                                 <span className="text-[10px] font-mono tracking-[1px] text-primary-foreground uppercase"> City</span>
                             </div>
                             <div className="py-3 text-primary-foreground text-sm ">
@@ -223,7 +223,7 @@ export default function RouteForm({ onSuccess, defaultValues }: RouteFormProps) 
 
                         <div className="flex flex-col border-b ">
                             <div className="flex flex-row gap-2">
-                                <img src="coord2.svg" alt="coord" className="h-[12px]" />
+                                <img src="coord2.svg" alt="coord" className="h-3" />
                                 <span className="text-[10px] font-mono tracking-[1px] text-primary-foreground uppercase">State</span>
                             </div>
                             <div className="py-3 text-primary-foreground text-sm ">
@@ -241,7 +241,7 @@ export default function RouteForm({ onSuccess, defaultValues }: RouteFormProps) 
 
                         <div className="flex flex-col border-b ">
                             <div className="flex flex-row gap-2">
-                                <img src="coord2.svg" alt="coord" className="h-[12px]" />
+                                <img src="coord2.svg" alt="coord" className="h-3" />
                                 <span className="text-[10px] font-mono tracking-[1px] text-primary-foreground uppercase"> Postal Code</span>
                             </div>
                             <div className="py-3 text-primary-foreground text-sm ">

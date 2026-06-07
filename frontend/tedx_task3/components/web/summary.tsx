@@ -8,6 +8,8 @@ import { Cart } from "@/types/cart";
 import { Product } from "@/types/product";
 import { fetchProducts } from "@/services/productServices";
 import { useCart } from "@/context/cartContext";
+import { AnimatePresence, motion } from "framer-motion";
+import { Input } from "../ui/input";
 
 export default function Summary({userId,cartChg}:{userId:string,cartChg:boolean}) {
     const { discount, setDiscount } = useCart();
@@ -66,6 +68,7 @@ export default function Summary({userId,cartChg}:{userId:string,cartChg:boolean}
                     <div>Quantity</div>
                     <div>Subtotal</div>
                 </div>
+                <AnimatePresence>
                 {(cart?.items??[]).map(
                     (product) => {
                         let item=allProducts.find((item)=>product.productId===item._id)
@@ -73,8 +76,16 @@ export default function Summary({userId,cartChg}:{userId:string,cartChg:boolean}
                             return null;
                         }
                         return (
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{opacity: 0, y: 10}} 
+                                transition={{ duration: 0.5, ease: "easeOut" }}
+                                className="grid grid-cols-[3fr_1fr_1fr_1fr] border-b text-foreground text-[12px] pb-2 "
+                                key={item._id}
 
-                            <div key={item._id} className="grid grid-cols-[3fr_1fr_1fr_1fr] border-b text-foreground text-[12px] pb-2">
+                            >
+                            {/* <div key={item._id} className="grid grid-cols-[3fr_1fr_1fr_1fr] border-b text-foreground text-[12px] pb-2"> */}
                                 <div className="flex flex-row gap-2">
                                     <img src={item.images[0]} alt={item.name} className="h-10" />
                                     {item.name}
@@ -82,16 +93,18 @@ export default function Summary({userId,cartChg}:{userId:string,cartChg:boolean}
                                 <div>{item.currency}{item.price}</div>
                                 <div>{product.quantity}</div>
                                 <div>${item.price * product.quantity}</div>
-                            </div>
+                            {/* </div> */}
+                            </motion.div>
                         );
                     }
                 )}
+                </AnimatePresence>
             </div>
-            {(cart === null) ?
+            {(cart?.items.length === 0) ?
                 <></> :
                 <>
-                    <div className="px-4 py-3 border-b flex flex-row justify-between">
-                        <input type="text" className=" border" placeholder="Enter Promo Code" value={input} onChange={(e) => setInput(e.target.value)} />
+                    <div className="px-4 py-3 border-b flex flex-row justify-between gap-2">
+                        <Input type="text" className=" border" placeholder="Enter Promo Code" value={input} onChange={(e) => setInput(e.target.value)} />
                         <button className=" bg-[#A6A09B] text-[#FFFFFF] px-2 tracking-[1.4px] font-medium text-[14px] hover:bg-foreground disabled:opacity-50 disabled:cursor-not-allowed" disabled={input === ""} onClick={() => handleClick()}>APPLY</button>
                     </div>
                     <div className="flex flex-col py-3 px-4 gap-2">

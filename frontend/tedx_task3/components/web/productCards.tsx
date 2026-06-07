@@ -6,13 +6,13 @@ import { Cart, CartItem } from "@/types/cart";
 import { addToCart, removeFromCart, updateCartItem, fetchCart } from "@/services/cartServices"; // adjust path
 import ProductDetailsModal from "./modal";
 
-export default function ProductCards({ products, userId, cartChg, setCartChg }: {
-  products: Product[], userId: string | null, cartChg: boolean, setCartChg: React.Dispatch<React.SetStateAction<boolean>>
+export default function ProductCards({ products, userId, cartChg, setCartChg,loading }: {
+  products: Product[], userId: string | null, cartChg: boolean, loading:boolean, setCartChg: React.Dispatch<React.SetStateAction<boolean>>
 }) {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [open, setOpen] = useState(false);
   const [cart, setCart] = useState<Cart | null>(null);
-  const [loadingFor, setLoadingFor] = useState<Record<string, boolean>>({});
+  //const [loadingFor, setLoadingFor] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     if (!userId) return;
@@ -22,9 +22,9 @@ export default function ProductCards({ products, userId, cartChg, setCartChg }: 
     })();
   }, [userId]);
 
-  const isLoading = (id: string) => !!loadingFor[id];
-  const setLoading = (id: string, v: boolean) =>
-    setLoadingFor((prev) => ({ ...prev, [id]: v }));
+  // const isLoading = (id: string) => !!loadingFor[id];
+  // const setLoading = (id: string, v: boolean) =>
+  //   setLoadingFor((prev) => ({ ...prev, [id]: v }));
 
   const getQuantity = (product: Product) => {
     if (!cart?.items) return 0;
@@ -39,7 +39,7 @@ export default function ProductCards({ products, userId, cartChg, setCartChg }: 
       return;
     }
 
-    setLoading(product._id, true);
+    //setLoading(product._id, true);
     try {
       const currentQty = getQuantity(product);
 
@@ -71,17 +71,18 @@ export default function ProductCards({ products, userId, cartChg, setCartChg }: 
       }
     } catch (err) {
       console.error("Add error", err);
-    } finally {
-      setLoading(product._id, false);
-    }
+    // } finally {
+    //   //setLoading(product._id, false);
+    // }
   }
+}
   async function handleRemove(product: Product) {
     if (!userId) {
       console.warn("No userId, please login or set guest id");
       return;
     }
     const qty = getQuantity(product);
-    setLoading(product._id, true);
+    //setLoading(product._id, true);
 
     try {
       if (qty <= 1) {
@@ -105,15 +106,97 @@ export default function ProductCards({ products, userId, cartChg, setCartChg }: 
       }
     } catch (err) {
       console.error("Remove error", err);
-    } finally {
-      setLoading(product._id, false);
-    }
+    // } finally {
+    //   //setLoading(product._id, false);
+    // }
   }
+}
 
   const handleOpen = (product: Product) => {
     setSelectedProduct(product);
     setOpen(true);
   };
+  if(loading){
+    return(
+      <div className="flex flex-col gap-px bg-border animate-pulse">
+
+      {[1,2,3].map((i) => (
+        <div
+          key={i}
+          className="bg-background py-8 flex flex-col sm:flex-row gap-8"
+        >
+
+          {/* image skeleton */}
+          <div className="
+            w-48 aspect-square 
+            shrink-0 mx-auto sm:mx-0
+            rounded-md
+            bg-stone-200
+          "/>
+
+
+          <div className="flex flex-col justify-between w-full gap-6">
+
+            <div className="flex flex-col gap-4">
+
+              {/* title */}
+              <div className="
+                h-5 w-2/3
+                rounded
+                bg-stone-200
+              "/>
+
+
+              {/* price */}
+              <div className="
+                h-5 w-20
+                rounded
+                bg-stone-200
+              "/>
+
+
+              {/* description */}
+              <div className="
+                h-3 w-full
+                rounded
+                bg-stone-100
+              "/>
+
+              <div className="
+                h-3 w-4/5
+                rounded
+                bg-stone-100
+              "/>
+
+            </div>
+
+
+            {/* bottom buttons */}
+            <div className="flex justify-between">
+
+              <div className="
+                h-4 w-20
+                rounded
+                bg-stone-200
+              "/>
+
+
+              <div className="
+                h-9 w-28
+                rounded
+                bg-stone-200
+              "/>
+
+            </div>
+
+          </div>
+
+        </div>
+      ))}
+
+    </div>
+  )
+  }
   return (
     <div className="flex flex-col gap-px bg-border">
       {products.map((product) => (
@@ -141,14 +224,16 @@ export default function ProductCards({ products, userId, cartChg, setCartChg }: 
                   className=" py-1.25 sm:py-1.75 pl-2 text-[#A6A09B] text-sm sm:text-sm cursor-pointer"
                   onClick={() => handleRemove(product)}
                 >
-                  {isLoading(product._id) ? "..." : "-"}
+                  {/* {isLoading(product._id) ? "..." : "-"} */}
+                  -
                 </div>
                 <div className="px-4 py-1.25 sm:py-1.5 text-foreground">{getQuantity(product)}</div>
                 <div
                   className="py-1.25 sm:py-1.75 pr-2 text-[#A6A09B] text-sm sm:text-sm cursor-pointer"
                   onClick={() => handleAdd(product)}
                 >
-                  {isLoading(product._id) ? "..." : "+"}
+                  {/* {isLoading(product._id) ? "..." : "+"} */}
+                  +
                 </div>
               </div>
             </div>

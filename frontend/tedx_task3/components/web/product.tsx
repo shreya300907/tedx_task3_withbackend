@@ -7,18 +7,28 @@ import { fetchMerch, fetchPassage } from "@/services/productServices";
 
 export default function Products({userId,cartChg,setCartChg}:{userId:string,cartChg:boolean, setCartChg: React.Dispatch<React.SetStateAction<boolean>>}) {
     const [allPassage, setAllPassage]=useState<Product[]>([])
+    const [passLoading,setpassLoading]=useState(true);
     useEffect(()=>{
         async function fetchData(){
-            const result=await fetchPassage();
-            setAllPassage(result);
+            try {
+                const result = await fetchPassage();
+                setAllPassage(result);
+            } finally {
+                setpassLoading(false);
+            }
         }
         fetchData();
     },[])
     const [allMerch, setAllMerch]=useState<Product[]>([])
+    const [merchLoading,setmerchLoading]=useState(true);
     useEffect(()=>{
         async function fetchData(){
-            const result=await fetchMerch();
-            setAllMerch(result);
+            try {
+                const result = await fetchMerch();
+                setAllMerch(result);
+            } finally {
+                setmerchLoading(false);
+            }
         }
         fetchData();
     },[])
@@ -40,14 +50,14 @@ export default function Products({userId,cartChg,setCartChg}:{userId:string,cart
                         <span className="text-primary-foreground font-mono text-[10px] sm:text-xs font-normal leading-4 tracking-[2.4px] uppercase">PASSAGES</span>
                         <span className="h-px w-full bg-[#E7E5E4]"></span>
                     </div>
-                    <ProductCards products={allPassage} userId={userId} cartChg={cartChg} setCartChg={setCartChg}/>
+                    <ProductCards products={allPassage} userId={userId} cartChg={cartChg} setCartChg={setCartChg} loading={passLoading}/>
                 </div>
                 <div>
                     <div className="flex flex-row gap-4 justify-center items-center">
                         <span className="text-primary-foreground font-mono text-[10px] sm:text-xs font-normal leading-4 tracking-[2.4px] uppercase">MERCH</span>
                         <span className="h-px w-full bg-[#E7E5E4]"></span>
                     </div>
-                    <ProductCards products={allMerch} userId={userId} cartChg={cartChg} setCartChg={setCartChg}/>
+                    <ProductCards products={allMerch} userId={userId} cartChg={cartChg} setCartChg={setCartChg} loading={merchLoading}/>
                 </div>
                 <div>
 

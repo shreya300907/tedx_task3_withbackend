@@ -11,7 +11,6 @@ import { useCart } from "@/context/cartContext";
 
 export default function Summary({userId,cartChg}:{userId:string,cartChg:boolean}) {
     const { discount, setDiscount } = useCart();
-    //let totalcost = 0;
     const [allProducts, setAllProducts]=useState<Product[]>([])
         useEffect(()=>{
             async function fetchData(){
@@ -20,7 +19,6 @@ export default function Summary({userId,cartChg}:{userId:string,cartChg:boolean}
             }
             fetchData();
         },[])
-    //const[discount,setDiscount]=useState(0);
     const [cart, setCart] = useState<Cart | null>(null);
     useEffect(() => {
         if (!userId) return;

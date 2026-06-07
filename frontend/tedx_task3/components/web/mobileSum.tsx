@@ -9,7 +9,6 @@ import { Cart } from "@/types/cart";
 import { useCart } from "@/context/cartContext";
 
 export default function MobileSummary({userId,cartChg}:{userId:string,cartChg:boolean}) {
-    //const { cart, setCart, discount } = useCart();
     const { discount } = useCart();
     const [cart, setCart] = useState<Cart | null>(null);
         useEffect(() => {

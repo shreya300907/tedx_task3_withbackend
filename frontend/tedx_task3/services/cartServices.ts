@@ -19,33 +19,6 @@ export async function removeFromCart(userId: string, productId: string) {
   return res.json();
 }
 
-// export async function fetchCart(userId:string): Promise<Cart | null>{
-
-//     try {
-//         const response = await fetch(`/api/cart/${userId}`);
-
-//         if (!response.ok) {
-//             throw new Error("Failed to fetch cart");
-//         }
-
-//         const result = await response.json();
-
-//         if (
-//             !result.success
-//         ) {
-//             throw new Error("Invalid API response");
-//         }
-//         return result.data;
-//     } catch (error) {
-
-//         console.error(
-//             "Error fetching Cart:",
-//             error
-//         );
-
-//         return null;
-//     }
-// };
 export async function fetchCart(userId: string): Promise<Cart | null> {
   try {
 
@@ -58,7 +31,6 @@ export async function fetchCart(userId: string): Promise<Cart | null> {
     );
 
 
-    // first time visitor has no cart yet
     if (response.status === 404) {
       return {
     userId,

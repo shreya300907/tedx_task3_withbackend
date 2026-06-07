@@ -5,7 +5,6 @@ import Stepper from "@/components/web/checkout/stepper";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import Link from "next/link";
 import { CoordinatesData } from "@/lib/validator/coordinateSchema";
 import { RouteData_1 } from "@/lib/validator/route1Schema";
 import { RouteData_2 } from "@/lib/validator/route2Schema";

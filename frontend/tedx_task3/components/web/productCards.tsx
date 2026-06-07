@@ -1,51 +1,3 @@
-// "use client"
-
-// import { useState } from "react";
-// import { Product } from "../../types/product";
-// import { useCart } from "@/context/cartContext";
-// import ProductDetailsModal from "./modal";
-// import { Cart, CartItem } from "@/types/cart";
-
-// export default function ProductCards({ products }: { products: Product[] }) {
-//     const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-//     const [open, setOpen] = useState(false);
-//     // const { cart, setCart, count, setCount } = useCart();
-//     // const addCart = (product: Product) => {
-//     //     setCount(count + 1); 
-//     //     setCart((prev) => {
-//     //         const exisiting = prev.find(item => item._id == product._id);
-//     //         if (exisiting) {
-//     //             return prev.map(item => item._id == product._id ? { ...item, quantity: item.quantity + 1 } : item)
-//     //         }
-//     //         return [...prev, { ...product, quantity: 1 }];
-//     //     });
-//     // }
-//     // const removeCart = (product: Product) => {
-//     //     setCart(prev => {
-//     //         return prev.map((item) => {
-//     //             if (item._id == product._id) {
-//     //                 setCount(count - 1);
-//     //                 return { ...item, quantity: item.quantity - 1 };
-//     //             } else {
-//     //                 return item;
-//     //             }
-//     //         }).filter(item => item.quantity > 0);
-//     //     });
-//     // }
-//     const [cart,setCart]=useState<Cart | null>(null) 
-//     const addCart=(product:Product )=>{
-//         const cartItem:CartItem = {
-//             productId: product._id,
-//             quantity,
-//             productType: product.type,
-//             priceAtPurchase: product.price,
-//             selectedSize: body.selectedSize,
-//         };
-//     }
-//     const handleOpen = (product: Product) => {
-//         setSelectedProduct(product);
-//         setOpen(true);
-//     };
 "use client"
 
 import { useEffect, useState } from "react";
@@ -76,13 +28,11 @@ export default function ProductCards({ products, userId, cartChg, setCartChg }: 
 
   const getQuantity = (product: Product) => {
     if (!cart?.items) return 0;
-    // backend stores productId as slug (or _id) — check both just in case
     const item = cart.items.find(
       (it: CartItem) => it.productId === product.slug || it.productId === product._id,
     );
     return item?.quantity ?? 0;
   };
-  // const [cartChg,setCartChg]=useState(true);
   async function handleAdd(product: Product) {
     if (!userId) {
       console.warn("No userId, please login or set guest id");
@@ -91,13 +41,12 @@ export default function ProductCards({ products, userId, cartChg, setCartChg }: 
 
     setLoading(product._id, true);
     try {
-      const currentQty = getQuantity(product); // reads from local cart state
+      const currentQty = getQuantity(product);
 
       if (currentQty === 0) {
-        // not in cart — add a new item
         const payload = {
           userId,
-          productId: product.slug, // backend expects slug currently
+          productId: product.slug,
           quantity: 1,
           productType: product.type,
           priceAtPurchase: product.price
@@ -111,7 +60,6 @@ export default function ProductCards({ products, userId, cartChg, setCartChg }: 
           console.error("Add to cart failed:", resp?.message);
         }
       } else {
-        // already in cart — update existing item's quantity
         const newQty = currentQty + 1;
         const resp = await updateCartItem(userId, product.slug, newQty);
         if (resp?.success) {
@@ -137,7 +85,6 @@ export default function ProductCards({ products, userId, cartChg, setCartChg }: 
 
     try {
       if (qty <= 1) {
-        // remove entire item
         const resp = await removeFromCart(userId, product.slug);
         if (resp?.success) {
           setCart(resp.data);
@@ -147,7 +94,6 @@ export default function ProductCards({ products, userId, cartChg, setCartChg }: 
           console.error("Remove failed:", resp?.message);
         }
       } else {
-        // decrement quantity using update endpoint
         const resp = await updateCartItem(userId, product.slug, qty - 1);
         if (resp?.success) {
           setCart(resp.data);

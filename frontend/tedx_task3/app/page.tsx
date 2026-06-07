@@ -22,8 +22,6 @@ export default function Home() {
  if(!userId){
    return <div>Loading...</div>
  }
-   //const userId: string = "65f2a9c8e1234567890abcde";
-
   return (
     <>
     

@@ -10,7 +10,7 @@ export default function CoordinatesForm({ onSuccess, defaultValues }: Coordinate
     const {
         register,
         handleSubmit,
-        formState: { errors, isValid }
+        formState: { errors }
     } = useForm<CoordinatesData>({
         resolver: zodResolver(CoordinatesSchema),
         mode: "onChange",
